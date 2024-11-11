@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SYN Flood Simulation Tool</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #1d2a78, #3d5aff);
+            color: #fff;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin: 20px 0;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        label {
+            font-size: 1.2rem;
+            margin: 10px 0 5px;
+            display: block;
+        }
+
+        input[type="text"], input[type="number"] {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 15px;
+            border: none;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.2);
+            color: #fff;
+            font-size: 1rem;
+            transition: background 0.3s;
+        }
+
+        input[type="text"]:focus, input[type="number"]:focus {
+            background: rgba(255, 255, 255, 0.4);
+            outline: none;
+        }
+
+        input[type="submit"], button {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            transition: background 0.3s, transform 0.3s;
+        }
+
+        input[type="submit"] {
+            background-color: #28a745;
+            color: white;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #218838;
+            transform: scale(1.05);
+        }
+
+        button {
+            background-color: #dc3545;
+            color: white;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background-color: #c82333;
+            transform: scale(1.05);
+        }
+
+        #log-output {
+            width: 100%;
+            height: 200px;
+            margin-top: 20px;
+            border-radius: 8px;
+            padding: 10px;
+            overflow-y: auto;
+            background-color: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #fff;
+            font-size: 0.9rem;
+            transition: background 0.3s;
+        }
+
+        #log-output:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            input[type="text"], input[type="number"], input[type="submit"], button {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>SYN Flood Simulation Tool</h1>
+        <form id="attack-form">
+            <label for="target">Target IP or Hostname:</label>
+            <input type="text" id="target" name="target" required>
+
+            <label for="port">Target Port:</label>
+            <input type="number" id="port" name="port" required>
+
+            <label for="frequency">Request Frequency (seconds):</label>
+            <input type="number" id="frequency" name="frequency" step="0.001" min="0.001" required>
+
+            <label for="threads">Number of Concurrent Threads:</label>
+            <input type="number" id="threads" name="threads" min="1" max="500" value="10" required>
+
+            <input type="submit" value="Start Attack">
+            <button type="button" onclick="stopAttack()">Stop Attack</button>
+        </form>
+        <div id="log-output"></div>
+    </div>
+
+    <script>
+        const logOutput = document.getElementById('log-output');
+
+        document.getElementById('attack-form').addEventListener('submit', function (event) {
+            event.preventDefault(); 
+
+            const target = document.getElementById('target').value;
+            const port = document.getElementById('port').value;
+            const frequency = document.getElementById('frequency').value;
+            const threads = document.getElementById('threads').value;
+
+            logOutput.innerHTML += `Starting SYN flood attack on <strong>${target}:${port}</strong> with <strong>${threads}</strong> threads at <strong>${frequency}</strong> seconds interval.<br>`;
+            logOutput.scrollTop = logOutput.scrollHeight;
+
+           
+        });
+
+        function stopAttack() {
+            logOutput.innerHTML += 'Attack stopped.<br>';
+            logOutput.scrollTop = logOutput.scrollHeight;
+        }
+    </script>
+</body>
+</html>
